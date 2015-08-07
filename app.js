@@ -1,42 +1,42 @@
+/// <reference path="typings/node/node.d.ts"/>
+"use strict";
 var path = require('path');
 
 var koa = require('koa');
-var router = require('koa-router');
-var render = require('koa-views');
-var static = require('koa-static');
+var Router = require('koa-router');
 var bodyParser = require('koa-bodyparser');
-var mongoose = require('mongoose');
-var session = require('koa-session-store');
-var mongooseStore = require('koa-session-mongoose');
+var render = require('koa-views');
+var staticServer = require('koa-static');
 
-var routes = require('./config/routes');
+var config = require('./config/config');
+var backendRoutes = require('./app/routes/backend');
+var frontendRoutes = require('./app/routes/frontend');
+var response = require('./app/middlewares/response');
+var db = require('./db/db');
 
-var app = koa();
+let app = koa();
 
-mongoose.connect('mongodb://localhost/Blog');
+let backendRouter = new Router({
+	prefix: "/api"
+});
 
-var db = mongoose.connection;
+let frontendRouter = new Router();
 
-app.keys = ['koa','blog'];
+app.use(function* (next) {
+	console.log(this.url);
+	yield next;
+});
 
-app.use(session({
-    store: mongooseStore.create(),
-    collection: 'koaSessions',
-    connection: db,
-    expires: 30 * 60 * 1000,
-    model: 'KoaSession'
-}));
+app.use(staticServer(path.join(__dirname, '/public')))
+	.use(render(path.join(__dirname, "./app/views"), { default: 'jade' }))
+	.use(response())
+	.use(bodyParser())
+	.use(backendRouter.routes())
+	.use(backendRouter.allowedMethods())
+	.use(frontendRouter.routes())
+	.use(frontendRouter.allowedMethods());
 
+backendRoutes(backendRouter);
+frontendRoutes(frontendRouter);
 
-app.use(static(path.join(__dirname, "/public")));
-
-app.use(render(path.join(__dirname,"./app/views"),{default:"ejs"}));
-
-app.use(bodyParser());
-
-app.use(router(app));
-
-routes.init(app);
-
-app.listen(3000);
-
+app.listen(config.PORT);

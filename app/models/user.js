@@ -1,22 +1,8 @@
+///<reference path="../../typings/node/node.d.ts" />
+"use strict";
 
-var thunkify = require('thunkify-wrap');
+var mongoose = require('mongoose');
 
-var User = require('../../db/models/user');
+var UserSchema = require('../../db/schemas/user');
 
-module.exports = {
-
-    saveUser : function * (user) {
-        var user = new User(user);
-
-        var save = thunkify(user.save,user);
-
-        yield save();
-    },
-
-    getUser : function * (account) {
-        var findByName = thunkify(User.findByName,User);
-
-        var result = yield findByName(account);
-        return result;
-    }
-}
+module.exports = mongoose.model('User',UserSchema);

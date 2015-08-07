@@ -1,0 +1,13 @@
+doctype html
+html(lang="en")
+  head
+    title= pageTitle
+  body
+    ul
+      each article in articles
+        li
+          a(href="/article/#{article.id}")
+            h1= article.title
+            div
+              p!= article.content
+    

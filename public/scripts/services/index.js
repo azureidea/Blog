@@ -1,0 +1,5 @@
+define([
+	"services/article"
+],function(){
+	
+})

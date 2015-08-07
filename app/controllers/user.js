@@ -1,38 +1,74 @@
+"use strict";
+///<reference path="../../typings/node/node.d.ts" />
+var thunkify = require('thunkify-wrap');
 
+var UserModel = require('../models/user');
 
-var userModel = require('../models/user');
+//获取用户列表
+exports.list = function * (){
+	let users = yield thunkify(UserModel.find,UserModel)();
+	this.send(users,0);
+}
 
-module.exports = {
-    
-    show: function * () {
-        yield this.render('about',{
-            session:this.session
-        });
-    },
+//创建用户
+exports.create = function * (){
+	var user = this.request.body;
+	
+	var result = yield thunkify(UserModel.findByName,UserModel)(user.account);
+	
+	if (result) {
+		return this.send(null,1,"用户已存在");
+	}
+	
+	var userModel = new UserModel(user);
+	
+	yield thunkify(userModel.save,userModel);
+	
+	this.send(null,0);
+}
 
-    render: function * () {
+//删除用户
+exports.remove = function * (){
+	var user = this.request.body;
+	
+	var result = yield thunkify(UserModel.findById,UserModel)(user.id);
+	
+	if (!result) {
+		return this.send(null,1,"用户不存在");
+	}	
+	
+	yield thunkify(result.remove,result)();
+	
+	this.send(null,0);
+}
 
-        var codeMap = {
-            "1":"密码错误"
-        };
-        
-        var code = this.query['c'];
+//更新用户信息
+exports.update = function * (){
+	var user = this.request.body;
+	
+	var result = yield thunkify(UserModel.findById,UserModel)(user.id);
+	
+	if (!result) {
+		return this.send(null,1,"用户不存在");
+	}	
+	
+	yield thunkify(result.update,result)({
+		account: user.account,
+		password: user.password
+	});
+	
+	this.send(null,0);
+}
 
-        yield this.render('login',{
-            msg: code && codeMap[code]
-        });
-    },
-
-    login: function * () {
-        var data = this.request.body;
-
-        var user = yield userModel.getUser(data.account);
-
-        if (user && user.password === data.password) {
-            this.session.user = user.account;
-            this.redirect('/');
-        } else {
-            this.redirect('/login?c=1');
-        }
-    }
-};
+//查询用户信息
+exports.fetch = function * (){
+	var userId = this.params['userId'];
+	
+	var result = yield thunkify(UserModel.findById,UserModel)(userId);
+	
+	if (!result) {
+		return this.send(null,1,"用户不存在");
+	}	
+	
+	this.send(result,0);
+}

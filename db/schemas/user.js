@@ -1,20 +1,10 @@
+"use strict";
 
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var Schema = mongoose.Schema;
-
-var UserSchema = new Schema({
-    account:String,
-    password:String,
-    resume:{
-        nickname:String,
-        weibo:String,
-        email:String,
-        school:String,
-        company:String,
-        work:String,
-        github:String
-    }
+var UserSchema = new mongoose.Schema({
+    username:{type:String},
+    password:{type:String}
 });
 
 UserSchema.statics = {
