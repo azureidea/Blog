@@ -2,6 +2,7 @@
 
 var User = require('../controllers/user');
 var Article = require('../controllers/article');
+var Tag = require('../controllers/tag');
 
 module.exports = function (router) {
 	
@@ -32,6 +33,12 @@ module.exports = function (router) {
 	//删除文章
 	router.post('/article/delete/:articleId',Article.remove);
 	
-	//查询访问详情
+	//查询文章详情
 	router.get('/article/:articleId',Article.fetch);
+	
+	//获取标签列表
+	router.get('/tags', Tag.list);
+	
+	//创建标签
+	router.post('/tag/create',Tag.create);
 }

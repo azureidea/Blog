@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CMS</title>
+	<link rel="stylesheet" href="styles/index.css">
+	<link rel="stylesheet" href="scripts/vendors/highlightjs/styles/solarized_light.css">
+</head>
+<body>
+	<header class="header">
+		<nav class="nav">
+			<a href="/" class="home">
+				<div class="nav-item">
+					<i class="iconfont i-apps"></i>
+				</div>
+			</a>
+			<a ui-sref="articles" class="active">
+				<div class="nav-item">
+					<i class="iconfont i-list"></i>
+					<span class="nav-text">文章列表</span>
+				</div>
+			</a>
+			<a ui-sref="compose">
+				<div class="nav-item">
+					<i class="iconfont i-add"></i>
+					<span class="nav-text">新建文章</span>
+				</div>
+			</a>
+			<a ui-sref="settings">
+				<div class="nav-item">
+					<i class="iconfont i-settings"></i>
+					<span class="nav-text">博客设置</span>
+				</div>
+			</a>
+		</nav>
+	</header>
+	<section class="container" ui-view>
+	</section>
+	<script src="scripts/vendors/requirejs/require.js" data-main="scripts/index.js"></script>
+</body>
+</html>

@@ -7,6 +7,7 @@ var hljs = require('highlight.js');
 var thunkify = require('thunkify-wrap');
 
 var ArticleModel = require('../models/article');
+var Tag = require('./tag');
 
 marked.setOptions({
 	renderer: new marked.Renderer(),
@@ -39,7 +40,16 @@ exports.create = function *(){
 	
 	var articleModel = new ArticleModel(article);
 	
-	yield thunkify(articleModel.save,articleModel);
+	var result = yield thunkify(articleModel.save,articleModel);
+	
+	if (!result) {
+		return this.send(null,1,"创建文章失败");
+	}
+	
+	//创建文章和标签链接
+	yield article.tags.map(function(tag){
+		return Tag.link(tag,result[0]);
+	});
 	
 	this.send(null,0);
 }
@@ -119,7 +129,7 @@ exports.index = function *(){
 		article.content = marked(article.content);
 	});
 	
-	yield this.render('index', {
+	yield this.render('article/index', {
 		articles: articles
 	});
 }
@@ -134,7 +144,7 @@ exports.show = function *(){
 	
 	result.content = marked(result.content);
 	
-	yield this.render('show', {
+	yield this.render('article/show', {
 		article: result
 	});
 }

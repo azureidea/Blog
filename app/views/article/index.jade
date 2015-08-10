@@ -1,0 +1,22 @@
+extends ../layout
+block content
+	div.content-body
+		div.container
+			div.row
+				section.col-md-9   
+					each article in articles   
+						article.post
+							header.entry-header
+								h1.entry-title
+									a(href="/article/#{article.id}")= article.title
+								div.entry-meta
+									each tag in article.tags
+										span.post-category
+											a(href="/tag/#{tag.id}")=tag.name
+									span.post-date
+										a(href="javascript:;")=article.mtime
+								div.entry-content.clearfix
+									p!= article.content
+									// div.read-more.cl-effect-14
+										// a.more-link(href="/")		
+				include ../includes/side.jade

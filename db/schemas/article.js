@@ -9,7 +9,10 @@ let Schema = mongoose.Schema;
 
 var ArticleSchema = new mongoose.Schema({
     //comments: [CommentSchema],
-    tags: [TagSchema],
+    tags: [{
+		id: String,
+		name: String
+	}],
     title: { type: String },
     content: { type: String },
     ctime: { type: Date, default: Date.now() },

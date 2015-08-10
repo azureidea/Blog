@@ -1,31 +1,69 @@
-var co = require('co');
+"use strict";
+///<reference path="../../typings/node/node.d.ts" />
+var util = require('util');
+
 var thunkify = require('thunkify-wrap');
-var markdown = require('markdown').markdown;
 
-var tagModel = require('../models/tag');
+var TagModel = require('../models/tag');
 
-module.exports = {
+//获取标签列表
+exports.list = function * (){
+	let tags = yield thunkify(TagModel.find,TagModel)();
+	this.send(tags,0);
+}
 
-	list: function * () {
-        var tag = this.params['tag'];
-        var tagInfo = yield tagModel.findById(tag);
+//创建标签
+exports.create = function * (){
+	var tag = this.request.body;
+	
+	var result = yield thunkify(TagModel.findByName,TagModel)(tag.name);
+	
+	if (result) {
+		return this.send(result,0);
+	}
+	
+	var tagModel = new TagModel(tag);
+	
+	result = yield thunkify(tagModel.save,tagModel);
+	
+	this.send(result[0],0);
+}
 
-        var tagList = yield tagModel.fetch();
+//链接文章
+exports.link = function * (tag,article){
+	var result = yield thunkify(TagModel.findByName,TagModel)(tag.name);
+	
+	var post = {
+		id: article._id,
+		title: article.title
+	};
+	
+	if (!result) {
+		var tagModel = new TagModel(util._extend(tag,{
+			articles:[post]
+		}));
+		
+		yield thunkify(tagModel.save,tagModel);
+	} else {
+		result.articles.push(post);
+		
+		yield thunkify(result.save,result);
+	}
+}
 
-        yield this.render('tags',{
-            session:this.session,
-            tagInfo:tagInfo,
-            tagList:tagList
-        });
-	},
-
-    add: function * (tag) {
-        yield tagModel.save(tag);
-    },
-
-    show: function * () {
-        
-    }
-
-};
-
+/**
+ * 分类文章列表页
+ */
+exports.show = function * (){	
+	var tagId = this.params['tagId'];
+	
+	var result = yield thunkify(TagModel.findById,TagModel)(tagId);
+	
+	if (!result) {
+		return this.send(null,1,"标签不存在");
+	}
+	console.log(result.articles);
+	yield this.render('tag/index',{
+		tag: result
+	});
+}
