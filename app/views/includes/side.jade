@@ -1,0 +1,26 @@
+aside.col-md-3
+	- if (category.recent && category.recent.length)
+		div.widget.widget-recent-posts
+			h3.widget-title 最新文章
+			ul
+				each article in category.recent
+					li
+						a(href="/article/#{article.id}")=article.title
+	- if (category.tags && category.tags.length)
+		div.widget.widget-category
+			h3.widget-title 标签
+			ul
+				each tag in category.tags
+					li
+						a(href="/tag/#{tag.id}")
+							|#{tag.name}
+							|(#{tag.articles.length})
+	- if (category.archives && category.archives.length)
+		div.widget.widget-archives
+			h3.widget-title 归档
+			ul
+				each archive in category.archives
+					li
+						a(href="/archive/#{archive.id}")							
+							|#{archive.name}
+							|(#{archive.articles.length})

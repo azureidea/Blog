@@ -1,0 +1,12 @@
+extends ../layout
+block content
+	div.content-body
+		div.container
+			div.row
+				section.col-md-9   
+					each article in archive.articles   
+						article
+							header.entry-header
+								h1.entry-title
+									a(href="/article/#{article.id}")= article.title		
+				include ../includes/side.jade

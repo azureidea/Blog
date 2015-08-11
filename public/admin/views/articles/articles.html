@@ -1,0 +1,24 @@
+<section class="article-list">
+    <ul>
+        <li class="article-item active" ng-repeat="article in articles">
+            <a ui-sref="articles.item({articleId:article._id})">
+                <h3 class="article-title" ng-cloak>{{article.title}}</h3>
+                <section class="article-meta">
+                    <span class="article-avatar" style="">
+                        <img src="" title="">
+                    </span>
+                    <span class="article-author">泡泡</span>
+                    <span class="article-status">
+                        <time class="date">
+                            发布于 8天前
+                        </time>
+                    </span>
+                </section>
+            </a>
+        </li>
+        
+    </ul>
+</section>
+<section class="article-content" ui-view>
+    
+</section>

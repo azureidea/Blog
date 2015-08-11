@@ -1,0 +1,40 @@
+{
+  "name": "koablog",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "highlight.js": "^8.6.0",
+    "jade": "^1.11.0",
+    "koa": "^0.21.0",
+    "koa-bodyparser": "^2.0.0",
+    "koa-generic-session": "^1.9.0",
+    "koa-router": "^5.1.2",
+    "koa-session-mongoose": "^0.5.2",
+    "koa-static": "^1.4.9",
+    "koa-views": "^3.1.0",
+    "lodash": "^3.10.0",
+    "log4js": "^0.6.26",
+    "marked": "^0.3.3",
+    "moment": "^2.10.3",
+    "mongoose": "^4.0.7",
+    "thunkify-wrap": "^1.0.4"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-minify-css": "^1.2.0",
+    "gulp-plumber": "^1.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-sequence": "^0.4.0",
+    "gulp-uglify": "^1.2.0",
+    "gulp-watch": "^4.3.2",
+    "through2": "^2.0.0"
+  }
+}
