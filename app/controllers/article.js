@@ -164,6 +164,12 @@ exports.show = function *(){
 		return;
 	}
 	
+	//pv自增
+	result.pv++;
+	result = yield thunkify(result.save,result)();
+	
+	result = result[0];
+	
 	result.content = marked(result.content);
 	
 	var category = yield Category.list();

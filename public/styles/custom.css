@@ -354,8 +354,6 @@ figure {
 .widget a {
 	font-size: 13px;
 	display: inline-block;
-	background-color: #eee;
-	border-radius: 5px;
 	padding: 0 10px;
 }
 

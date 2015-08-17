@@ -15,6 +15,7 @@ var ArticleSchema = new mongoose.Schema({
 	}],
     title: { type: String },
     content: { type: String },
+	pv: {type:Number, default:0 },
     ctime: { type: Date, default: Date.now() },
     mtime:{ type: Date, default: Date.now() }
 });
