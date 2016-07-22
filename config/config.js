@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = {
-	PORT:80,
+	PORT:3000,
 	MongoDB: {
 		PORT: 27017,
 		HOST: "localhost",

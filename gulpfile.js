@@ -1,4 +1,3 @@
-/// <reference path="typings/node/node.d.ts"/>
 "use strict";
 
 var gulp = require('gulp');
@@ -15,3 +14,5 @@ gulp.task('sass:compile',function(){
 gulp.task('watch',function(){
 	gulp.watch('./public/admin/styles/sass/*.scss',['sass:compile'])
 });
+
+gulp.task('default',['sass:compile']);

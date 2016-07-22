@@ -27,7 +27,7 @@ exports.create = function * (){
 	
 	yield thunkify(user.save,user);
 	
-	this.send(null,0);
+	this.redirect('/admin/login.html');
 }
 
 //删除用户
