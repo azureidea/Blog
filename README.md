@@ -20,7 +20,7 @@ bower install
 
 . 启动mongodb
 
- 按Blog/app/config/config.js 里的MongoDb字段创建数据库
+ 按Blog/config/config.js 里的MongoDb字段创建数据库
 
 . 执行构建脚本 
 
